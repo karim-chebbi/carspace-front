@@ -21,8 +21,8 @@ const CarCard = ({car}) => {
         <p className="text-sm font-medium text-gray-900">${car.price}</p>
       </div>
       <div className="mt-4 flex justify-between">
-        <EditCar />
-        <DeleteCar />
+        <EditCar car ={car} />
+        <DeleteCar id={car._id} />
       </div>
     </div>
   );

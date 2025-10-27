@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import CarCard from '../components/CarCard'
 import { getAllCars } from '../JS/Actions/carActions'
 import AddCar from '../components/AddCar'
+import Loading from '../components/Loading'
 
 const Marketplace = () => {
   const cars = useSelector((state) => state.CarReducer.cars)
+
+  const loading = useSelector((state)=> state.CarReducer.load)
 
   const dispatch = useDispatch()
 
@@ -22,6 +25,8 @@ const Marketplace = () => {
         {
           !cars.length ? <p className='text-slate-700 text-center py-6'>No cars found</p>
           : 
+          loading ?  <Loading />
+          :
           cars.map((car) => (
             <CarCard key={car._id} car={car} />
           ))

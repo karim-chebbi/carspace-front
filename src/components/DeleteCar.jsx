@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { deleteCar } from "../JS/Actions/carActions";
 
-const DeleteCar = () => {
+const DeleteCar = ({id}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const dispatch = useDispatch()
+
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
+    dispatch(deleteCar(id))
     setIsModalOpen(false);
   };
   const handleCancel = () => {
@@ -19,15 +25,19 @@ const DeleteCar = () => {
         Delete
       </Button>
       <Modal
-        title="Basic Modal"
+        title={
+          <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <DeleteOutlined style={{ color: "red" }} />
+            Delete Car
+          </span>
+        }
         closable={{ "aria-label": "Custom Close Button" }}
         open={isModalOpen}
         onOk={handleOk}
+        okType= 'danger'
         onCancel={handleCancel}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <p>Are you sure you want to delete this car?</p>
       </Modal>
     </>
   );
