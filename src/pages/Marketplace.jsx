@@ -10,6 +10,8 @@ const Marketplace = () => {
 
   const loading = useSelector((state)=> state.CarReducer.load)
 
+  const isAdmin = useSelector((state) => state.AuthReducer.user?.isAdmin)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const Marketplace = () => {
     <div className='min-h-screen px-2 md:px-14'>
 
       <h1 className='text-3xl font-bold text-slate-800'>Marketplace Page</h1>
-      <AddCar />
+      { isAdmin && <AddCar />}
       <div className='border border-slate-300 rounded my-10 p-6 min-h-screen flex flex-wrap gap-4 justify-center'>
         {
           !cars.length ? <p className='text-slate-700 text-center py-6'>No cars found</p>

@@ -2,9 +2,12 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import EditCar from './EditCar';
 import DeleteCar from './DeleteCar';
+import { useSelector } from 'react-redux';
+import { Button } from 'antd';
 
 const CarCard = ({car}) => {
     const navigate = useNavigate()
+    const isAdmin = useSelector((state) => state.AuthReducer.user?.isAdmin)
   return (
     <div as={Link} key={car._id} className=" w-80 cursor-pointer h-auto">
       <img
@@ -21,8 +24,16 @@ const CarCard = ({car}) => {
         <p className="text-sm font-medium text-gray-900">${car.price}</p>
       </div>
       <div className="mt-4 flex justify-between">
-        <EditCar car ={car} />
-        <DeleteCar id={car._id} />
+        {isAdmin ? (
+          <>
+            <EditCar car={car} />
+            <DeleteCar id={car._id} />
+          </>
+        ) : (
+          <Button onClick={() => navigate(`/car_description/${car._id}`)}>
+            See details
+          </Button>
+        )}
       </div>
     </div>
   );

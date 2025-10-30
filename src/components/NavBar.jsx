@@ -28,6 +28,9 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
+import ProfileAvatar from "./ProfileAvatar";
+import {useDispatch, useSelector} from 'react-redux'
+import { lougoutUser } from "../JS/Actions/authActions";
 
 const products = [
   {
@@ -69,6 +72,10 @@ const callsToAction = [
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+
+  const isAuth = useSelector((state) => state.AuthReducer.isAuth)
 
   return (
     <header className="bg-white z-20">
@@ -163,13 +170,26 @@ export default function NavBar() {
             Contact
           </Link>
         </PopoverGroup>
+
         <div className="hidden lg:flex lg:flex-1 lg:gap-5 lg:justify-end">
-          <Button type="primary" onClick={()=> navigate('/register')}>Register</Button>
-          <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
+          {isAuth ? (
+            <ProfileAvatar />
+          ) : (
+            <>
+              <Button type="primary" onClick={() => navigate("/register")}>
+                Register
+              </Button>
+              <Link
+                to="/login"
+                className="text-sm/6 font-semibold text-gray-900"
+              >
+                Log in <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </>
+          )}
         </div>
       </nav>
+
       <Dialog
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
@@ -234,19 +254,43 @@ export default function NavBar() {
                 </Link>
               </div>
               <div className="py-6">
-                
-                <Link
-                  to="/register"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Register
-                </Link>
-                <Link
-                  to="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </Link>
+                {isAuth ? (
+                  <>
+                    <Link
+                      to="/profile"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      Profile
+                    </Link>
+                    <Link
+                      to="/settings"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      Settings
+                    </Link>
+                    <Link
+                      onClick={() => dispatch(lougoutUser())}
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      Sign out
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/register"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      Register
+                    </Link>
+                    <Link
+                      to="/login"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                      Log in
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

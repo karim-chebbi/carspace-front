@@ -1,6 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {useDispatch} from "react-redux";
+import { useState } from "react";
+import { registerUser } from "../JS/Actions/authActions";
 
 export default function Register() {
+  const [newUser, setNewUser] = useState({})
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    setNewUser({ ...newUser, [e.target.name]: e.target.value });
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    dispatch(registerUser(newUser, navigate));
+  };
+
+  // console.log(newUser);
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,7 +33,68 @@ export default function Register() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleRegister} className="space-y-6">
+            {/* First name */}
+            <div>
+              <label
+                htmlFor="firstName"
+                className="block text-sm/6 font-medium text-gray-900"
+              >
+                First Name
+              </label>
+              <div className="mt-2">
+                <input
+                  onChange={(e) => handleInputChange(e)}
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  required
+                  autoComplete="firstName"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+            {/* Last name */}
+            <div>
+              <label
+                htmlFor="lastName"
+                className="block text-sm/6 font-medium text-gray-900"
+              >
+                Last Name
+              </label>
+              <div className="mt-2">
+                <input
+                  onChange={(e) => handleInputChange(e)}
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  required
+                  autoComplete="lastName"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+            {/* Phone number */}
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-sm/6 font-medium text-gray-900"
+              >
+                Phone Number
+              </label>
+              <div className="mt-2">
+                <input
+                  onChange={(e) => handleInputChange(e)}
+                  id="phone"
+                  name="phone"
+                  type="number"
+                  required
+                  autoComplete="phone"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+            {/* Email address */}
             <div>
               <label
                 htmlFor="email"
@@ -26,6 +104,7 @@ export default function Register() {
               </label>
               <div className="mt-2">
                 <input
+                  onChange={(e) => handleInputChange(e)}
                   id="email"
                   name="email"
                   type="email"
@@ -35,7 +114,7 @@ export default function Register() {
                 />
               </div>
             </div>
-
+            {/* Password */}
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -55,6 +134,7 @@ export default function Register() {
               </div>
               <div className="mt-2">
                 <input
+                  onChange={(e) => handleInputChange(e)}
                   id="password"
                   name="password"
                   type="password"
@@ -70,7 +150,7 @@ export default function Register() {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                Register
               </button>
             </div>
           </form>
